@@ -1,0 +1,184 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace personal_library_management
+{
+
+  class variables
+    {
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public int Year { get; set; }
+        public int identifier { get; set; }
+        // here we identify all variables
+    }
+    class bookarray
+    {
+        object[] books = new object[100];
+        public void AddBook(variables book)
+        {
+            for (int i = 0; i < books.Length; i++)
+            {
+                books[i] = book;
+                Console.WriteLine("Book added successfully");
+                return; // here we added new book then Exit                       
+            }
+        }
+        public void ViewBooks()
+        {
+            Console.WriteLine("Library Books:");
+            foreach (var book in books)//to go over all books
+            {           
+              if (book  is variables)
+                {
+                    var b = (variables)book;
+                    Console.WriteLine("\n Title : {1}, \n Author ={2},\n Year = {3} ,\n identifier = {0}", b.Title, b.Author, b.Year, b.identifier);
+                }//to display all books
+            }
+        }
+        public void RemoveBook(int identifier)
+        {
+
+
+            for (int i = 0; i < books.Length; i++)
+            {
+                foreach (var book in books)
+                {
+                    var b = (variables)book;
+                    if (books[i] is variables && ((variables)books[i]).identifier == b.identifier)
+                    {
+                        Console.WriteLine("Book removed successfully"); 
+                        return;
+                    }
+                }
+            }
+        }
+        public void Searchbook(string title)
+        {
+            bool found = false;
+            Console.WriteLine("Search Results:");
+
+            foreach (var book in books)
+            {
+                var b = (variables)book;
+
+                if (book is variables && ((variables)book).Title == b.Title)
+                {
+                    Console.WriteLine(" Title = {0}, Author ={1}, Year = {2} , identifier = {3}", b.Title, b.Author, b.Year, b.identifier);
+                    found = true;
+                }
+            }
+
+            if (!found)
+            {
+                Console.WriteLine("No matching books found");
+            }
+
+        }
+    }
+}
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Welcome to library mangement");
+            try
+            {
+                bookarray library = new bookarray();
+                while (true)
+                {
+                   
+                    Console.WriteLine("\n menu :");
+                    Console.WriteLine("\n 1. Add a book");
+                    Console.WriteLine("\n 2.Remove a book");
+                    Console.WriteLine("\n 3.search a book");
+                    Console.WriteLine("\n 4. Display All books");
+                    Console.WriteLine("\n 5. Exit");
+                    Console.WriteLine("\n  Enter your choice (1-5):");
+                    int choice = Convert.ToInt32(Console.ReadLine());
+                    switch (choice)
+                    {
+                        case 1:
+                            Console.WriteLine("Enter book title: ");
+                            string title = Console.ReadLine();
+                            Console.WriteLine("Enter the book's author:");
+                            string author = Console.ReadLine();
+                            Console.WriteLine("Enter publication year: ");
+                            int year = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter identifier");
+                            int identifier = int.Parse(Console.ReadLine());
+                            variables newBook = new variables { Title = title, Author = author, Year = year, identifier = identifier };
+                            library.AddBook(newBook);
+                            break;
+                        case 4:
+                            library.ViewBooks();
+                            break;
+
+                        case 2:
+                            Console.Write("Enter the identifier of the book to remove: ");
+                            int  bookRemove = int.Parse(Console.ReadLine());
+                            library.RemoveBook(bookRemove);
+                            break;
+
+
+
+
+                        case 3:
+                            Console.Write("Enter title to search: ");
+                            string searchTitle = Console.ReadLine();
+                            library.Searchbook(searchTitle);
+                            break;
+
+
+
+                        case 5:
+                            Environment.Exit(0);
+                            break;
+
+                        default:
+                            Console.WriteLine("Invalid choice. Please try again.");
+                            break;
+
+
+
+
+
+                    }
+
+                }
+
+
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input. Please enter a valid number.");
+            }
+            Console.ReadLine();
+        }
+
+    }
+}
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
